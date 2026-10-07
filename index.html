@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wall-e-Wood — Modern Poster Catalogue</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#FAFAFA] text-[#111111] font-sans antialiased selection:bg-[#111111] selection:text-white min-h-screen flex flex-col">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-[#111111] text-white text-[11px] font-medium tracking-wide py-2 px-4 border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>PRE-ORDER DROP • ARRIVING OCTOBER 10TH • <strong class="font-semibold">A3  | A4 </strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-[#EAEAEA]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="h-16 flex items-center justify-between gap-3">
+                
+                <!-- Left: Brand Wordmark -->
+<div class="flex items-center gap-3 shrink-0">
+    <a 
+        href="#" 
+        onclick="resetAllFilters(); return false;" 
+        class="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-[#111111] flex items-center gap-2 select-none"
+    >
+        <span>Wall-e-Wood</span>
+    </a>
+</div>
+                <!-- Center: Pill Navigation (All, Anime, Films, Sports) -->
+                <nav class="hidden md:flex items-center bg-zinc-100/90 p-1 rounded-full border border-[#EAEAEA]">
+                    <button onclick="setCategory('All')" id="cat-All" class="cat-pill px-4 py-1.5 rounded-full text-xs font-semibold transition cursor-pointer bg-[#111111] text-white shadow-sm">
+                        All
+                    </button>
+                    <button onclick="setCategory('Anime')" id="cat-Anime" class="cat-pill px-4 py-1.5 rounded-full text-xs font-semibold transition cursor-pointer text-zinc-600 hover:text-[#111111]">
+                        Anime
+                    </button>
+                    <button onclick="setCategory('Films')" id="cat-Films" class="cat-pill px-4 py-1.5 rounded-full text-xs font-semibold transition cursor-pointer text-zinc-600 hover:text-[#111111]">
+                        Films
+                    </button>
+                    <button onclick="setCategory('Sports')" id="cat-Sports" class="cat-pill px-4 py-1.5 rounded-full text-xs font-semibold transition cursor-pointer text-zinc-600 hover:text-[#111111]">
+                        Sports
+                    </button>
+                </nav>
+
+                <!-- Right: Search, Contact Us, and Bag -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <!-- Compact Header Search -->
+                    <div class="relative hidden lg:block w-44 xl:w-56">
+                        <i data-lucide="search" class="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                        <input 
+                            type="text" 
+                            id="headerSearchInput"
+                            placeholder="Search posters..." 
+                            oninput="handleSearch(this.value)"
+                            class="w-full bg-zinc-50 border border-[#EAEAEA] focus:bg-white focus:border-[#111111] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#111111] placeholder-zinc-400 focus:outline-none transition"
+                        >
+                    </div>
+
+                    <!-- Contact Us Button -->
+                    <button 
+                        onclick="toggleContactModal(true)" 
+                        class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white hover:bg-zinc-50 text-[#111111] border border-[#EAEAEA] text-xs font-semibold transition cursor-pointer shadow-sm"
+                    >
+                        <i data-lucide="phone" class="w-3.5 h-3.5 text-[#111111]"></i>
+                        <span class="hidden sm:inline">Contact Us</span>
+                    </button>
+
+                    <!-- Bag Trigger -->
+                    <button 
+                        onclick="toggleBagDrawer(true)" 
+                        class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#111111] hover:bg-zinc-800 text-white text-xs font-semibold transition shadow-sm cursor-pointer"
+                    >
+                        <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+                        <span>Bag (<span id="headerBagCount">0</span>)</span>
+                        <span class="text-zinc-500 hidden sm:inline">•</span>
+                        <span id="headerBagTotal" class="font-mono hidden sm:inline">₹0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Category & Size Filter Bar -->
+            <div class="flex flex-col md:hidden gap-2 pb-3 border-t border-[#EAEAEA] pt-2.5">
+                <div class="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar">
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="setCategory('All')" id="m-cat-All" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-[#111111] text-white">
+                            All
+                        </button>
+                        <button onclick="setCategory('Anime')" id="m-cat-Anime" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-zinc-100 text-zinc-600">
+                            Anime
+                        </button>
+                        <button onclick="setCategory('Films')" id="m-cat-Films" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-zinc-100 text-zinc-600">
+                            Films
+                        </button>
+                        <button onclick="setCategory('Sports')" id="m-cat-Sports" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-zinc-100 text-zinc-600">
+                            Sports
+                        </button>
+                    </div>
+
+                    <!-- Global Quick Size Filter (Mobile) -->
+                    <div class="flex items-center bg-zinc-100 p-0.5 rounded-lg border border-[#EAEAEA] text-[11px] font-semibold shrink-0">
+                        <button onclick="setGlobalSize('All')" id="m-globalSize-All" class="px-2 py-1 rounded-md bg-white text-[#111111] shadow-sm">
+                            All
+                        </button>
+                        <button onclick="setGlobalSize('A3')" id="m-globalSize-A3" class="px-2 py-1 rounded-md text-zinc-500">
+                            A3
+                        </button>
+                        <button onclick="setGlobalSize('A4')" id="m-globalSize-A4" class="px-2 py-1 rounded-md text-zinc-500">
+                            A4
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        
+        <!-- Sub-Toolbar: Active Section Count, Admin-Only Branch Toggle & Size Filter -->
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-[#EAEAEA]">
+            <div class="flex items-center gap-2.5 text-xs text-zinc-500">
+                <h1 id="activeCategoryLabel" class="font-display font-bold text-sm sm:text-base text-[#111111]">All Posters</h1>
+                <span>•</span>
+                <span><span id="visibleCount">0</span> designs</span>
+                
+                <!-- Hidden unless Admin is logged in -->
+                <div id="adminToolbarControls" class="hidden items-center gap-2">
+                    <span>•</span>
+                    <button 
+                        onclick="togglePosterBranch()" 
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-[#111111] font-semibold text-xs transition cursor-pointer"
+                    >
+                        <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
+                        <span>+ Add / Priority Branch</span>
+                    </button>
+                    <button 
+                        onclick="logoutAdmin()" 
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-rose-50 text-zinc-600 hover:text-rose-600 font-semibold text-xs transition cursor-pointer"
+                        title="Lock Admin Mode"
+                    >
+                        <i data-lucide="lock" class="w-3 h-3"></i>
+                        <span>Lock Admin</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
+                <!-- Mobile/Tablet Search Input -->
+                <div class="relative lg:hidden flex-1 sm:w-52">
+                    <i data-lucide="search" class="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Search posters..." 
+                        oninput="handleSearch(this.value)"
+                        class="w-full bg-white border border-[#EAEAEA] focus:border-[#111111] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#111111] placeholder-zinc-400 focus:outline-none transition"
+                    >
+                </div>
+
+                <!-- Desktop Global Size Filter -->
+                <div class="hidden sm:flex items-center gap-1.5 text-xs">
+                    <span class="text-zinc-400 font-medium">Filter Size:</span>
+                    <div class="inline-flex items-center bg-zinc-100 p-0.5 rounded-xl border border-[#EAEAEA] text-xs font-semibold">
+                        <button onclick="setGlobalSize('All')" id="globalSize-All" class="px-2.5 py-1 rounded-lg transition cursor-pointer bg-white text-[#111111] shadow-sm">
+                            All Sizes
+                        </button>
+                        <button onclick="setGlobalSize('A3')" id="globalSize-A3" class="px-2.5 py-1 rounded-lg transition cursor-pointer text-zinc-500 hover:text-[#111111]">
+                            A3 
+                        </button>
+                        <button onclick="setGlobalSize('A4')" id="globalSize-A4" class="px-2.5 py-1 rounded-lg transition cursor-pointer text-zinc-500 hover:text-[#111111]">
+                            A4 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN-ONLY INLINE BRANCH: ADD POSTERS & SET HOMEPAGE PRIORITY / SOLD OUT / PRICE & DISCOUNT -->
+        <section id="posterManagerBranch" class="hidden mb-8 bg-white border border-[#EAEAEA] rounded-2xl p-4 sm:p-6 shadow-sm space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAEAEA] pb-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">Admin Unlocked</span>
+                        <h2 class="font-display font-bold text-sm sm:text-base text-[#111111]">
+                            Poster Add & Homepage Priority Branch
+                        </h2>
+                    </div>
+                    <p class="text-xs text-zinc-500 mt-1">Add new posters, set custom prices/discounts, or check <strong>Priority</strong> to pin posters to the homepage top. Click <strong>Copy Code for VS Code</strong> when ready to update your GitHub repo.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button 
+                        onclick="copyPostersArrayForVSCode()" 
+                        class="px-3 py-1.5 rounded-xl bg-[#111111] hover:bg-zinc-800 text-white font-semibold text-xs flex items-center gap-1.5 transition cursor-pointer"
+                        title="Copy updated DEFAULT_POSTERS array to paste into script.js"
+                    >
+                        <i data-lucide="code" class="w-3.5 h-3.5"></i>
+                        <span>Copy Code for VS Code</span>
+                    </button>
+                    <button 
+                        onclick="resetToDefaultPosters()" 
+                        class="px-3 py-1.5 rounded-xl bg-zinc-100 hover:bg-rose-50 text-zinc-600 hover:text-rose-600 font-semibold text-xs transition cursor-pointer"
+                    >
+                        Reset to script.js Defaults
+                    </button>
+                    <button onclick="togglePosterBranch()" class="p-1.5 rounded-lg text-zinc-400 hover:text-[#111111] hover:bg-zinc-100 cursor-pointer">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add New Poster Form -->
+            <div class="bg-[#FAFAFA] border border-[#EAEAEA] rounded-xl p-4 space-y-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-[#111111] block">1. Add New Poster to Main Catalogue</span>
+                
+                <!-- Row 1: ID, Title, Image Path/URL, Category -->
+                <div class="grid grid-cols-1 sm:grid-cols-6 gap-2.5">
+                    <input type="text" id="branchId" placeholder="ID (e.g. 10)" class="sm:col-span-1 bg-white border border-[#EAEAEA] rounded-lg px-3 py-2 text-xs font-mono text-[#111111] focus:outline-none focus:border-[#111111]">
+                    <input type="text" id="branchTitle" placeholder="Poster Title *" class="sm:col-span-2 bg-white border border-[#EAEAEA] rounded-lg px-3 py-2 text-xs text-[#111111] focus:outline-none focus:border-[#111111]">
+                    <input type="text" id="branchImage" placeholder="Image Path (images/A3/...) or Link *" class="sm:col-span-2 bg-white border border-[#EAEAEA] rounded-lg px-3 py-2 text-xs text-[#111111] focus:outline-none focus:border-[#111111]">
+                    <select id="branchCategory" class="bg-white border border-[#EAEAEA] rounded-lg px-2.5 py-2 text-xs font-semibold text-[#111111] focus:outline-none">
+                        <option value="Anime">Anime</option>
+                        <option value="Films">Films</option>
+                        <option value="Sports">Sports</option>
+                    </select>
+                </div>
+
+                <!-- Row 2: Manual Price & Live Discount Slider -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-white border border-[#EAEAEA] rounded-lg p-3">
+                    <div class="flex items-center justify-between sm:justify-start gap-2">
+                        <label for="branchPriceA3" class="text-[11px] font-semibold text-zinc-500">Base A3 (₹):</label>
+                        <input 
+                            type="number" 
+                            id="branchPriceA3" 
+                            value="100" 
+                            min="0"
+                            oninput="updateUploadDiscountPreview()" 
+                            class="w-20 bg-zinc-50 border border-[#EAEAEA] rounded-lg px-2.5 py-1 text-xs font-mono font-bold text-[#111111] focus:outline-none focus:border-[#111111]"
+                        >
+                    </div>
+                    <div class="flex items-center justify-between sm:justify-start gap-2">
+                        <label for="branchPriceA4" class="text-[11px] font-semibold text-zinc-500">Base A4 (₹):</label>
+                        <input 
+                            type="number" 
+                            id="branchPriceA4" 
+                            value="50" 
+                            min="0"
+                            oninput="updateUploadDiscountPreview()" 
+                            class="w-20 bg-zinc-50 border border-[#EAEAEA] rounded-lg px-2.5 py-1 text-xs font-mono font-bold text-[#111111] focus:outline-none focus:border-[#111111]"
+                        >
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="font-semibold text-zinc-500">Discount: <strong id="branchDiscountLabel" class="text-emerald-600">0% OFF</strong></span>
+                            <span id="branchFinalPricePreview" class="font-mono font-bold text-[#111111]">Final: A3  | A4 </span>
+                        </div>
+                        <input 
+                            type="range" 
+                            id="branchDiscountSlider" 
+                            min="0" 
+                            max="80" 
+                            step="5" 
+                            value="0" 
+                            oninput="updateUploadDiscountPreview()" 
+                            class="w-full accent-[#111111] cursor-pointer h-1.5 bg-zinc-200 rounded-lg"
+                        >
+                    </div>
+                </div>
+
+                <!-- Row 3: Size, Priority, Sold Out, and + Add Poster Button -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <select id="branchSize" class="bg-white border border-[#EAEAEA] rounded-lg px-2.5 py-1.5 text-xs font-semibold text-[#111111] focus:outline-none">
+                            <option value="Both">Both A3 & A4</option>
+                            <option value="A3" selected>A3 Only</option>
+                            <option value="A4">A4 Only</option>
+                        </select>
+
+                        <!-- Priority Checkbox -->
+                        <label class="inline-flex items-center gap-2 text-xs font-semibold text-[#111111] cursor-pointer select-none bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg">
+                            <input type="checkbox" id="branchPriority" class="w-3.5 h-3.5 accent-[#111111] rounded cursor-pointer">
+                            <span>Show First on Homepage (Priority)</span>
+                        </label>
+
+                        <!-- Sold Out Checkbox -->
+                        <label class="inline-flex items-center gap-2 text-xs font-semibold text-zinc-700 cursor-pointer select-none bg-white border border-[#EAEAEA] px-3 py-1.5 rounded-lg">
+                            <input type="checkbox" id="branchSoldOut" class="w-3.5 h-3.5 accent-rose-600 rounded cursor-pointer">
+                            <span>Sold Out</span>
+                        </label>
+                    </div>
+
+                    <button onclick="addPosterFromBranch()" class="px-4 py-2 rounded-xl bg-[#111111] hover:bg-zinc-800 text-white text-xs font-semibold transition cursor-pointer">
+                        + Add Poster
+                    </button>
+                </div>
+            </div>
+
+            <!-- Manage Existing Posters Priority, Prices & Sold Out Checkboxes -->
+            <div class="space-y-2.5">
+                <span class="text-xs font-bold uppercase tracking-wider text-[#111111] block">2. Edit Prices, Sizes, Priority & Sold Out Status</span>
+                <div id="branchPosterList" class="grid grid-cols-1 gap-2.5 max-h-80 overflow-y-auto pr-1">
+                    <!-- Populated via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-20 bg-white border border-[#EAEAEA] rounded-2xl p-8 max-w-md mx-auto">
+            <p class="font-display font-bold text-base text-[#111111]">No posters found</p>
+            <p class="text-xs text-zinc-500 mt-1">Try switching categories or clearing your search filter.</p>
+            <div class="mt-4 flex items-center justify-center">
+                <button onclick="resetAllFilters()" class="px-4 py-2 rounded-xl bg-[#111111] hover:bg-zinc-800 text-white font-semibold text-xs transition cursor-pointer">
+                    View All Posters
+                </button>
+            </div>
+        </div>
+
+        <!-- 4-Column Poster Card Grid -->
+        <div id="posterGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            <!-- Populated via JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#EAEAEA] bg-white py-6 px-4 sm:px-6 lg:px-8 mt-14">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+            <div class="flex items-center gap-2">
+                <span class="font-display font-bold text-[#111111]">Wall-e-Wood</span>
+                <span>—</span>
+                <span>A3  & A4 UHD Prints. 300 gsm Posters</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleContactModal(true)" class="text-[#111111] font-medium hover:underline cursor-pointer">
+                    Contact Us
+                </button>
+                <span>•</span>
+                <span>Pre-order batch arriving Oct 10</span>
+                <span>•</span>
+                <button 
+                    onclick="handleAdminTrigger()" 
+                    id="footerAdminBtn"
+                    class="inline-flex items-center gap-1 text-zinc-400 hover:text-[#111111] transition cursor-pointer"
+                >
+                    <i data-lucide="lock" class="w-3 h-3"></i>
+                    <span id="footerAdminBtnText">Admin</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin PIN Login Modal -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4" onclick="toggleAdminModal(false)">
+        <div class="bg-white border border-[#EAEAEA] rounded-2xl max-w-xs w-full overflow-hidden shadow-2xl p-6 space-y-4" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-lg bg-[#111111] text-white flex items-center justify-center">
+                        <i data-lucide="key-round" class="w-3.5 h-3.5"></i>
+                    </div>
+                    <h2 class="font-display font-bold text-sm text-[#111111]">Admin Login</h2>
+                </div>
+                <button onclick="toggleAdminModal(false)" class="p-1 rounded-lg text-zinc-400 hover:text-[#111111] cursor-pointer">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-zinc-500">Enter your Admin PIN to unlock the Poster Add & Homepage Priority branch.</p>
+
+            <form onsubmit="submitAdminPin(event)" class="space-y-3">
+                <input 
+                    type="password" 
+                    id="adminPinInput" 
+                    maxlength="8"
+                    placeholder="Enter 8-Digit PIN" 
+                    class="w-full bg-zinc-50 border border-[#EAEAEA] focus:bg-white focus:border-[#111111] rounded-xl px-3.5 py-2.5 text-xs font-mono text-center tracking-widest text-[#111111] focus:outline-none"
+                >
+                <p id="adminPinError" class="hidden text-[11px] text-rose-600 text-center font-medium">
+                    Incorrect Admin PIN. Try again.
+                </p>
+                <button 
+                    type="submit" 
+                    class="w-full py-2.5 rounded-xl bg-[#111111] hover:bg-zinc-800 text-white font-semibold text-xs transition cursor-pointer"
+                >
+                    Unlock Admin Panel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4" onclick="closeLightbox()">
+        <div class="relative max-w-sm w-full bg-white rounded-2xl overflow-hidden shadow-2xl border border-[#EAEAEA]" onclick="event.stopPropagation()">
+            <button onclick="closeLightbox()" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 text-[#111111] flex items-center justify-center shadow hover:bg-white transition cursor-pointer">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+            <div class="poster-aspect w-full bg-zinc-100 relative">
+                <img id="lightboxImg" src="" alt="Poster Preview" class="w-full h-full object-cover">
+                <span id="lightboxSoldOutBadge" class="hidden absolute top-3 left-3 px-2.5 py-1 rounded-md bg-rose-600 text-white text-[10px] font-bold uppercase tracking-wider shadow">
+                    Sold Out
+                </span>
+            </div>
+            <div class="p-4 flex items-center justify-between gap-3 bg-white border-t border-[#EAEAEA]">
+                <div class="min-w-0">
+                    <span id="lightboxCategory" class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Category</span>
+                    <h4 id="lightboxTitle" class="font-display font-bold text-sm text-[#111111] truncate">Poster Title</h4>
+                </div>
+                <div id="lightboxActionBtns" class="flex items-center gap-1.5 shrink-0">
+                    <button id="lightboxAddA3" class="px-3 py-2 rounded-xl bg-[#111111] hover:bg-zinc-800 text-white font-semibold text-xs transition cursor-pointer">
+                        + A3 (₹100)
+                    </button>
+                    <button id="lightboxAddA4" class="px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-[#111111] font-semibold text-xs transition cursor-pointer">
+                        + A4 (₹50)
+                    </button>
+                </div>
+                <span id="lightboxSoldOutText" class="hidden px-3 py-1.5 rounded-xl bg-zinc-100 text-zinc-400 font-semibold text-xs shrink-0">
+                    Sold Out
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bag Drawer (WhatsApp Order & Payment Request) -->
+    <div id="bagDrawerBackdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden" onclick="toggleBagDrawer(false)">
+        <div 
+            class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl border-l border-[#EAEAEA] flex flex-col justify-between"
+            onclick="event.stopPropagation()"
+        >
+            <!-- Bag Header -->
+            <div class="px-5 py-4 border-b border-[#EAEAEA] flex items-center justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-base text-[#111111]">Pre-Order Checkout</h2>
+                    <p class="text-[11px] text-zinc-500">Select posters • Enter details • Pay via WhatsApp QR</p>
+                </div>
+                <button onclick="toggleBagDrawer(false)" class="p-1.5 rounded-lg text-zinc-400 hover:text-[#111111] hover:bg-zinc-100 transition cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Bag Body -->
+            <div class="flex-1 overflow-y-auto p-5 space-y-6">
+                <!-- Step 1: Selected Posters -->
+                <div>
+                    <div class="flex items-center justify-between mb-2.5">
+                        <span class="text-xs font-semibold text-zinc-500 uppercase tracking-wider">1. Selected Posters</span>
+                        <button onclick="clearBag()" class="text-xs text-zinc-400 hover:text-rose-600 transition cursor-pointer">Clear All</button>
+                    </div>
+                    <div id="bagItemsContainer" class="space-y-2.5">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Step 2: Customer Delivery Info -->
+                <div class="space-y-3">
+                    <span class="text-xs font-semibold text-zinc-500 uppercase tracking-wider block">2. Your Delivery Details</span>
+                    <input 
+                        type="text" 
+                        id="custName" 
+                        placeholder="Full Name *" 
+                        class="w-full bg-white border border-[#EAEAEA] focus:border-[#111111] rounded-xl px-3.5 py-2.5 text-xs text-[#111111] focus:outline-none"
+                    >
+                    <input 
+                        type="tel" 
+                        id="custPhone" 
+                        placeholder="Phone / WhatsApp Number *" 
+                        class="w-full bg-white border border-[#EAEAEA] focus:border-[#111111] rounded-xl px-3.5 py-2.5 text-xs text-[#111111] focus:outline-none"
+                    >
+                    <textarea 
+                        id="custAddress" 
+                        rows="2" 
+                        placeholder="Delivery Address / Room / Hostel *" 
+                        class="w-full bg-white border border-[#EAEAEA] focus:border-[#111111] rounded-xl px-3.5 py-2 text-xs text-[#111111] focus:outline-none"
+                    ></textarea>
+                    <div id="bagError" class="hidden text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-xl px-3 py-2">
+                        Please enter your name, phone number, and delivery address.
+                    </div>
+                </div>
+
+                <!-- Step 3: How Payment Works Notice -->
+                <div class="bg-[#FAFAFA] border border-[#EAEAEA] rounded-2xl p-4 space-y-1.5">
+                    <div class="flex items-center gap-1.5 text-xs font-bold text-[#111111]">
+                        <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i>
+                        <span>3. Payment on WhatsApp</span>
+                    </div>
+                    <p class="text-[11px] text-zinc-600 leading-relaxed">
+                        Click the button below to send your selected poster IDs and delivery info to us on WhatsApp. We will send you the payment QR code directly in the chat to confirm your order!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bag Footer -->
+            <div class="p-5 border-t border-[#EAEAEA] bg-white space-y-2.5">
+                <div class="flex items-center justify-between text-sm mb-1">
+                    <span class="text-zinc-500 font-medium">Total Payable</span>
+                    <span id="bagFooterTotal" class="font-display font-extrabold text-lg text-[#111111] font-mono">₹0</span>
+                </div>
+                <button 
+                    onclick="sendWhatsAppPreOrder()" 
+                    class="w-full py-3 px-4 rounded-xl bg-[#111111] hover:bg-zinc-800 text-white font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition cursor-pointer shadow-sm"
+                >
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span>Send Order & Get Payment QR</span>
+                </button>
+                <button 
+                    onclick="copyOrderText()" 
+                    class="w-full py-2 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer"
+                >
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    <span>Copy Order Summary</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Us Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4" onclick="toggleContactModal(false)">
+        <div class="bg-white border border-[#EAEAEA] rounded-2xl max-w-sm w-full overflow-hidden shadow-2xl p-6 space-y-5" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-base text-[#111111]">Contact Us</h2>
+                    <p class="text-xs text-zinc-500">Have questions or custom poster requests?</p>
+                </div>
+                <button onclick="toggleContactModal(false)" class="p-1.5 rounded-lg text-zinc-400 hover:text-[#111111] hover:bg-zinc-100 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <!-- Phone Placeholder -->
+                <div class="flex items-center gap-3 p-3 rounded-xl bg-[#FAFAFA] border border-[#EAEAEA]">
+                    <div class="w-8 h-8 rounded-lg bg-[#111111] text-white flex items-center justify-center shrink-0">
+                        <i data-lucide="phone" class="w-4 h-4"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Phone / WhatsApp</p>
+                        <a id="contactPhoneLink" href="tel:+917209939682" class="font-mono font-bold text-[#111111] hover:underline block truncate">
+                            +91 72099 39682
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Email Placeholder -->
+                <div class="flex items-center gap-3 p-3 rounded-xl bg-[#FAFAFA] border border-[#EAEAEA]">
+                    <div class="w-8 h-8 rounded-lg bg-[#111111] text-white flex items-center justify-center shrink-0">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Email Address</p>
+                        <a id="contactEmailLink" href="mailto:myselfjyotips@gmail.com" class="font-mono font-bold text-[#111111] hover:underline block truncate">
+                            myselfjyotips@gmail.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <button 
+                onclick="toggleContactModal(false)" 
+                class="w-full py-2.5 rounded-xl bg-[#111111] hover:bg-zinc-800 text-white font-semibold text-xs transition cursor-pointer"
+            >
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Minimal Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-[#111111] text-white px-4 py-2.5 rounded-xl shadow-lg text-xs font-medium flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span id="toastText">Added to bag</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
